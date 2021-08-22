@@ -1,0 +1,1 @@
+web: gunicorn n0tspam.asgi:application -k uvicorn.workers.UvicornWorker
