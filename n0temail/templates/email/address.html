@@ -1,0 +1,50 @@
+<!-- email/templates/email/address.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Email Address</title>
+</head>
+
+<body>
+    <table id="email_table">
+        <thead>
+            <tr>
+                <th>Receieved</th>
+                <th>From</th>
+                <th>Subject</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="email_placeholder" colspan=3>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+    <textarea id="email-body" cols="100" rows="20"></textarea><br>
+    {{ email_name|json_script:"email-name" }}
+    <script>
+        const emailAddress = JSON.parse(document.getElementById('email-name').textContent);
+
+        const emailSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/email/'
+            + emailAddress
+            + '/'
+        );
+
+        emailSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            console.dir(data)
+            document.querySelector('#email-body').value = data;
+        };
+
+        emailSocket.onclose = function (e) {
+            console.error('email socket closed unexpectedly');
+        };
+    </script>
+</body>
+
+</html>

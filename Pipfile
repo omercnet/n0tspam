@@ -6,13 +6,20 @@ name = "pypi"
 [packages]
 django = "<4"
 python-decouple = "*"
-uvicorn = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 gunicorn = "*"
 django-heroku = "*"
+dj-database-url = "*"
+channels = "*"
+channels-redis = "*"
+djangorestframework = "*"
+django-filter = "*"
+markdown = "*"
 
 [dev-packages]
 black = "*"
 pylint = "*"
+pylint-django = "*"
 
 [requires]
 python_version = "3.9"

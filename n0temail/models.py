@@ -1,3 +1,5 @@
+import json
+
 from django.conf import settings
 from django.db import models
 
@@ -16,7 +18,11 @@ class Email(models.Model):
     sender_ip = models.CharField(max_length=254, null=True)
     spam_score = models.FloatField(null=True)
     from_email = models.CharField(max_length=254, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     spam_report = models.CharField(max_length=254, null=True)
+
+    def __str__(self) -> str:
+        return f"{self.created_at}: {self.from_email} -> {self.to_email} ({json.loads(self.envelope)['to']}): {self.subject}"
 
 
 class Attachment(models.Model):
@@ -25,6 +31,7 @@ class Attachment(models.Model):
     email = models.ForeignKey(Email, on_delete=models.CASCADE)
     filename = models.CharField(max_length=254)
     content_id = models.CharField(max_length=254)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class RequestLog(models.Model):
