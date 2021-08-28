@@ -5,8 +5,6 @@ from django.http import JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework import permissions
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
 
 from .serializers import EmailSerializer
 from .models import RequestLog, Email
@@ -54,11 +52,6 @@ def SendgridWebhookView(request: HttpRequest):
 
         if p.get("attachments"):
             pass
-
-        channel_layer = get_channel_layer()
-        async_to_sync(channel_layer.group_send)(
-            p.get("to").replace("@", "._."), {"email": email.pk}
-        )
 
         # ret.update({"post": request.POST, "files": [str(f) for f in request.FILES]})
 
