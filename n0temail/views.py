@@ -1,8 +1,10 @@
 import logging
+from datetime import timedelta
 
 from django.shortcuts import render
 from django.http import JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework import permissions
 
@@ -17,8 +19,16 @@ def index(request):
 
 
 def address(request, email_name):
+    emails = Email.objects.filter(to_email=email_name)[:10]
     return render(
-        request, "email/address.html", {"email_name": email_name.replace("@", "._.")}
+        request, "email/address.html", {"email_name": email_name.replace("@", "._."), "emails": emails}
+    )
+
+
+def email(request, email_id):
+    email_obj = Email.objects.get(id=email_id)
+    return render(
+        request, "email/email.html", {"email_obj": email_obj}
     )
 
 

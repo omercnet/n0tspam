@@ -26,6 +26,7 @@ router.register(r"emails", views.EmailViewSet)
 urlpatterns = [
     path("api/", include(router.urls)),
     path("", views.index, name="index"),
-    path("<str:email_name>/", views.address, name="address"),
+    path("<str:email_name>", views.address, name="address"),
+    path("id/<int:email_id>", views.email, name="email"),
     path("sendgrid", views.SendgridWebhookView, name="sendgrid"),
 ]
