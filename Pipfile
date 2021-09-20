@@ -14,7 +14,6 @@ markdown = "*"
 celery = {extras = ["redis"], version = "*"}
 daphne = "*"
 channels-redis = "*"
-twisted = {extras = ["http2"], version = "*"}
 
 [dev-packages]
 black = "*"

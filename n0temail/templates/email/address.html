@@ -19,7 +19,7 @@
         <tbody>
             {% for email in emails %}
             <tr id="email_{{ email.id }}">
-                <td><a href="id/{{ email.id }}">{{ email.created_at }}</a></td>
+                <td><a href="{{ email.id }}/">{{ email.created_at }}</a></td>
                 <td>{{ email.from_email }}</td>
                 <td>{{ email.subject }}</td>
             </tr>
@@ -30,6 +30,35 @@
             {% endfor %}
         </tbody>
     </table>
+    <script>
+        function connect() {
+            const ws = new WebSocket(
+                'ws://'
+                + window.location.host
+                + '/ws/email/'
+                + "{{ email_name }}/"
+            );
+
+            ws.onmessage = function (e) {
+                console.log('Message:', JSON.parse(e.data));
+            };
+
+            ws.onclose = function (e) {
+                console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+                setTimeout(function () {
+                    connect();
+                }, 1000);
+            };
+
+            ws.onerror = function (err) {
+                console.error('Socket encountered error: ', err.message, 'Closing socket');
+                ws.close();
+            };
+        }
+
+        connect();        
+
+    </script>
 </body>
 
 </html>

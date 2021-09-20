@@ -7,15 +7,14 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
 """
 
-import os
-
+from decouple import config
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 
 import n0temail.routing
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+config("DJANGO_SETTINGS_MODULE", default="settings")
 
 application = ProtocolTypeRouter(
     {

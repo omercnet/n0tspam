@@ -2,7 +2,7 @@ import logging
 from datetime import timedelta
 
 from django.shortcuts import render
-from django.http import JsonResponse, HttpRequest
+from django.http import JsonResponse, HttpRequest, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from rest_framework import viewsets
@@ -21,15 +21,18 @@ def index(request):
 def address(request, email_name):
     emails = Email.objects.filter(to_email=email_name)[:10]
     return render(
-        request, "email/address.html", {"email_name": email_name.replace("@", "._."), "emails": emails}
+        request,
+        "email/address.html",
+        {"email_name": email_name.replace("@", "._."), "emails": emails},
     )
 
 
-def email(request, email_id):
-    email_obj = Email.objects.get(id=email_id)
-    return render(
-        request, "email/email.html", {"email_obj": email_obj}
-    )
+def email(request, email_name, email_id):
+    try:
+        email_obj = Email.objects.get(to_email=email_name, id=email_id)
+    except Email.DoesNotExist:
+        raise Http404("Email does not exist")
+    return render(request, "email/email.html", {"email_obj": email_obj})
 
 
 @csrf_exempt
