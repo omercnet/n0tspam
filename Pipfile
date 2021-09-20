@@ -4,22 +4,21 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "<4"
+django = ">=3,<4"
 python-decouple = "*"
-uvicorn = {extras = ["standard"], version = "*"}
-gunicorn = "*"
 django-heroku = "*"
 dj-database-url = "*"
-channels = "*"
-channels-redis = "*"
 djangorestframework = "*"
 django-filter = "*"
 markdown = "*"
+celery = {extras = ["redis"], version = "*"}
+daphne = "*"
+channels-redis = "*"
+twisted = {extras = ["http2"], version = "*"}
 
 [dev-packages]
 black = "*"
-pylint = "*"
-pylint-django = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.9"

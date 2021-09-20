@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "n0tspam.urls"
+ROOT_URLCONF = "urls"
 
 TEMPLATES = [
     {
@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "n0tspam.wsgi.application"
+WSGI_APPLICATION = "wsgi.application"
 
 
 # Database
@@ -128,7 +128,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 EMAIL_ATTACHMENT_UPLOAD_PATH = config("EMAIL_ATTACHMET_UPLOAD_PATH")
 
-ASGI_APPLICATION = "n0tspam.asgi.application"
+ASGI_APPLICATION = "asgi.application"
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -142,5 +142,13 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
+
+CELERY_TASK_SERIALIZER = "json"
+CELERY_ACCEPT_CONTENT = ["json"]  # Ignore other content
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = "UTC"
+CELERY_ENABLE_UTC = True
+CELERY_BROKER_URL = config("REDIS_URL")
+
 
 django_heroku.settings(locals())

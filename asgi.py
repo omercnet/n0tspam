@@ -15,7 +15,7 @@ from django.core.asgi import get_asgi_application
 
 import n0temail.routing
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "n0tspam.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 application = ProtocolTypeRouter(
     {
