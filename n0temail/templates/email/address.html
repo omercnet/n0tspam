@@ -31,6 +31,8 @@
         </tbody>
     </table>
     <script>
+        const table = document.getElementById('email_table');
+
         function connect() {
             const ws = new WebSocket(
                 'ws://'
@@ -40,7 +42,16 @@
             );
 
             ws.onmessage = function (e) {
-                console.log('Message:', JSON.parse(e.data));
+                const data = JSON.parse(e.data);
+                console.log('Message:', data);
+                if (data.type === 'new') {
+                    const email = data.email;
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('id', 'email_' + email.id);
+                    tr.innerHTML = `<td><a href="${email.id}/">${email.created_at}</a></td><td>${email.from_email}</td><td>${email.subject}</td>`;
+                    table.prepend(tr);
+                }
+                
             };
 
             ws.onclose = function (e) {

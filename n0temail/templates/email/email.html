@@ -13,7 +13,8 @@
     From: {{ email_obj.from_email }}
     To: {{ email_obj.to_email }}
     Subject: {{ email_obj.subject }}
-        {{ email_obj.text }}
+        
+    {{ email_obj.text|default:email_obj.html }}
     </pre>
 </body>
 

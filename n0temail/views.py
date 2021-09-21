@@ -19,7 +19,7 @@ def index(request):
 
 
 def address(request, email_name):
-    emails = Email.objects.filter(to_email=email_name)[:10]
+    emails = Email.objects.filter(to_email=email_name).order_by("-created_at")[:10]
     return render(
         request,
         "email/address.html",
