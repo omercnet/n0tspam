@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = ">=3,<4"
+django = ">=5,<6"
 python-decouple = "*"
 django-heroku = "*"
 dj-database-url = "*"
